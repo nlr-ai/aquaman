@@ -30,6 +30,7 @@ The test example currently displayed is fictional. Qualified water-quality revie
 | Interface | React, TypeScript, Vite |
 | Map | Leaflet and OpenStreetMap tiles, loaded on demand |
 | Cloud | Supabase Auth, PostgreSQL RPCs and private Storage |
+| Frontend hosting | Cloudflare Pages (Free plan targeted for the pilot) |
 | Local alternative | SQLite behind a localhost-only Vite API |
 | Presentation | CSS, self-hosted Figtree / Young Serif, Lucide icons |
 | Planned mobile packaging | Capacitor, subject to device and store validation |
@@ -75,6 +76,25 @@ npm run migrate -- --apply  # apply to the configured project
 
 Confirm the target project first. Applied migration hashes are checked; later changes belong in new migration files.
 
+## Hosting — Cloudflare Pages
+
+Cloudflare Pages is the selected hosting target for the web frontend. Supabase continues to provide authentication, database operations and private photos. A Pages deployment stays available independently of the developer's computer; the existing temporary tunnel is only a demo link.
+
+For Git integration, connect `nlr-ai/aquaman` and configure:
+
+| Setting | Value |
+| --- | --- |
+| Production branch | `main` |
+| Node.js | `24` |
+| Build command | `npm run build` |
+| Output directory | `dist` |
+
+Set the three public build variables shown in **Supabase mode** above. Do not upload `.env.local` or add administrator credentials to frontend build settings. After publication, authorize the actual Pages URL in Supabase Auth's redirect settings and verify password setup/reset.
+
+**Deployment status:** configuration is prepared and committed; Cloudflare account authentication and publication are still pending. Automatic deployment on push also requires Git integration to be connected. No permanent Pages URL has been verified yet.
+
+See [Cloudflare deployment instructions](docs/DEPLOYMENT.md) for Git integration, direct-upload alternatives and release checks. The free plan is the pilot target, subject to provider quotas; backend and map services retain their own limits.
+
 ## Build and verification
 
 ```sh
@@ -103,6 +123,7 @@ Before a public pilot: establish real data provenance, local field verification 
 - [Product specification](SPEC.md)
 - [Implementation checklist](TODO.md)
 - [Supabase setup](supabase/SETUP.md)
+- [Cloudflare Pages deployment](docs/DEPLOYMENT.md)
 - [Development notes](docs/DEVELOPMENT.md)
 - [Design reference](https://claude.ai/artifact/CqtLLXUc6wtuAsogNrg6xU)
 
