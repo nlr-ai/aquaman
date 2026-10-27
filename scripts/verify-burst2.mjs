@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {randomUUID} from 'node:crypto';
+const base='http://127.0.0.1:5173/api';
+async function req(path,body,cookie){const r=await fetch(base+path,{method:body===undefined?'GET':'POST',headers:{...(body?{'Content-Type':'application/json'}:{}),...(cookie?{Cookie:cookie}:{})},body:body===undefined?undefined:JSON.stringify(body)});return {status:r.status,data:await r.json(),cookie:r.headers.get('set-cookie')?.split(';')[0]};}
+assert.equal((await req('/staff/reports')).status,401);
+assert.equal((await req('/reports',{})).status,400);
+const login=await req('/staff/login',{password:readFileSync('data/moderator-password.txt','utf8').trim()});assert.equal(login.status,200);const cookie=login.cookie;
+const fixture={kind:'add',name:'API verification demo tap',area:'Verification only',landmark:'Fictional test fixture',type:'Public tap',status:'Unknown',observed:'2026-10-28',description:'Fictional automated verification fixture',requestKey:randomUUID()};
+const created=await req('/reports',fixture);assert.equal(created.status,201);
+const queue=await req('/staff/reports',undefined,cookie);const browser=queue.data.find(r=>r.id===created.data.id);assert(browser);
+assert(!(await req('/published')).data.some(r=>r.id===browser.id));
+assert.equal((await req('/staff/review/'+browser.id,{status:'published',reason:'Browser demo checked; fictional record only.'},cookie)).status,200);
+assert.equal((await req('/status/'+browser.id)).data.status,'published');
+assert((await req('/published')).data.some(r=>r.id===browser.id));
+const body={kind:'update',pointId:1,name:'Boundary Market borehole',area:'Ajegunle',landmark:'Fictional market',type:'Borehole',status:'Not working',observed:'2026-10-28',description:'Fictional update for workflow verification',requestKey:randomUUID()};
+const report=await req('/reports',body);assert.equal(report.status,201);assert.equal((await req('/reports',body)).data.id,report.data.id);
+assert(!(await req('/published')).data.some(r=>r.id===report.data.id));
+assert.equal((await req('/staff/review/'+report.data.id,{status:'follow-up',reason:'Needs a demo follow-up'},cookie)).status,200);
+assert.equal((await req('/staff/review/'+report.data.id,{status:'published',reason:'Demo follow-up completed'},cookie)).status,200);
+assert.equal((await req('/staff/review/'+report.data.id,{status:'rejected',reason:'Duplicate review'},cookie)).status,409);
+const published=(await req('/published')).data;assert(published.some(r=>r.id===report.data.id));assert(!published.some(r=>'reason'in r||'request_key'in r));
+const status=(await req('/status/'+report.data.id)).data;assert(!('payload'in status));
+const rejected=await req('/reports',{...body,requestKey:randomUUID()});assert.equal((await req('/staff/review/'+rejected.data.id,{status:'rejected',reason:'Demo rejected'},cookie)).status,200);assert(!(await req('/published')).data.some(r=>r.id===rejected.data.id));
+await req('/staff/logout',{},cookie);assert.equal((await req('/staff/reports',undefined,cookie)).status,401);
+writeFileSync('data/verification.json',JSON.stringify({browser:browser.id,update:report.data.id,rejected:rejected.data.id}));
+console.log('Passed: server validation, moderator protection, report publication, pending privacy, idempotent retry, follow-up, approval, double-review conflict, rejection, public projection and logout.');
