@@ -16,3 +16,5 @@ body::before{content:"";position:absolute;inset:0 0 0 auto;width:min(68vw,960px)
 
 /* Keep distance easy to scan beside the point name. */
 .cardtop>span{font-size:1rem;font-weight:700;color:#3C566A;padding-top:4px}.locationline{font-size:1rem;font-weight:600;gap:7px}.locationline>span{font-size:.8125rem;font-weight:400}.locationline>svg{width:18px;height:18px}
+
+.pointlocation{margin:20px 0}.mapcanvas.detailmap{height:260px}.pointlocation .overline{margin-bottom:8px}@media(min-width:760px){.mapcanvas.detailmap{height:320px}}
