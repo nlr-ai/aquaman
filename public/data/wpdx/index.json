@@ -1,0 +1,121 @@
+{
+  "provider": "WPdx via HDX",
+  "state": "Lagos",
+  "country": "Nigeria",
+  "recordCount": 1829,
+  "skipped": 0,
+  "areas": [
+    {
+      "area": "Agege",
+      "count": 63,
+      "file": "area-0.json"
+    },
+    {
+      "area": "Ajeromi/Ifelodun",
+      "count": 17,
+      "file": "area-1.json"
+    },
+    {
+      "area": "Alimosho",
+      "count": 202,
+      "file": "area-2.json"
+    },
+    {
+      "area": "Amuwo Odofin",
+      "count": 67,
+      "file": "area-3.json"
+    },
+    {
+      "area": "Apapa",
+      "count": 25,
+      "file": "area-4.json"
+    },
+    {
+      "area": "Badagry",
+      "count": 234,
+      "file": "area-5.json"
+    },
+    {
+      "area": "Epe",
+      "count": 245,
+      "file": "area-6.json"
+    },
+    {
+      "area": "Eti-Osa",
+      "count": 17,
+      "file": "area-7.json"
+    },
+    {
+      "area": "Ibeju-Lekki",
+      "count": 155,
+      "file": "area-8.json"
+    },
+    {
+      "area": "Ifako/Ijaye",
+      "count": 45,
+      "file": "area-9.json"
+    },
+    {
+      "area": "Ikeja",
+      "count": 86,
+      "file": "area-10.json"
+    },
+    {
+      "area": "Ikorodu",
+      "count": 219,
+      "file": "area-11.json"
+    },
+    {
+      "area": "Kosofe",
+      "count": 56,
+      "file": "area-12.json"
+    },
+    {
+      "area": "Lagos Island",
+      "count": 83,
+      "file": "area-13.json"
+    },
+    {
+      "area": "Mainland",
+      "count": 24,
+      "file": "area-14.json"
+    },
+    {
+      "area": "Mushin",
+      "count": 27,
+      "file": "area-15.json"
+    },
+    {
+      "area": "Ojo",
+      "count": 95,
+      "file": "area-16.json"
+    },
+    {
+      "area": "Oshodi/Isolo",
+      "count": 66,
+      "file": "area-17.json"
+    },
+    {
+      "area": "Shomolu",
+      "count": 18,
+      "file": "area-18.json"
+    },
+    {
+      "area": "Surulere",
+      "count": 85,
+      "file": "area-19.json"
+    }
+  ],
+  "observationRange": [
+    "2010-01-01",
+    "2019-11-02"
+  ],
+  "retrievedAt": "2026-10-28T00:12:41.298Z",
+  "sourceUrl": "https://data.humdata.org/dataset/wpdx_nga",
+  "downloadUrl": "https://data.humdata.org/dataset/29677a2d-1fb2-48a3-a06a-9c66800c418b/resource/1fdb9a0c-d145-49e5-a502-6a3bc63626e8/download/wpdx_enhanced.csv",
+  "sourceUpdated": "2026-07-26T19:04:35.121549",
+  "license": "Creative Commons Attribution Share-Alike",
+  "licenseNote": "HDX declares Creative Commons Attribution Share-Alike without a version in this metadata. Source attribution and licence accompany this normalized snapshot. This data licence does not license application source code.",
+  "csvSha256": "ebdce3d7bd007e2cd54a6379687cc05786806b0ffb0aca6034c2e80da35b88da",
+  "limitations": "Historical inventory. Current availability, access and drinking-water quality are unknown. Predictions and subjective quality are not used as verified evidence. Labels are generated from source type and WPdx ID; they are not local names."
+}

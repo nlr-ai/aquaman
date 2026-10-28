@@ -45,7 +45,7 @@ Updated: 28 October 2026. The detailed checklist tracks the full product; see th
 - [x] Verify SQL consent/coordinate checks, pending photo isolation, real Auth moderator review and public signed-image download on live Supabase. Delete synthetic test account, images and reports afterward.
 - [x] Browser-test manual coordinates, missing consent, recap, receipt, stored coordinates and public map projection; compile and rebuild the tunnel’s static site.
 - [ ] Physical camera/GPS tests, browser upload/compression UI tests, per-client upload anti-abuse and scheduled cleanup of abandoned/rejected uploads remain open. API storage tests do not replace those device/UI tests.
-- [ ] Full PostGIS catalogue and real water-point import remain separate from the current demo report model.
+- [ ] Full PostGIS catalogue remains pending; the first real historical import (WPdx Lagos) is now connected through per-area RPCs.
 
 ## Position picker and readable references
 
@@ -78,7 +78,7 @@ Release order: **V1 web map/list and community reporting → V1.5 Android and iP
 - [ ] Set up Supabase development configuration, versioned SQL migrations, PostgreSQL/PostGIS, moderator authentication and photo storage.
 - [ ] Choose the pilot tile service: assess standard OSM tiles under their usage policy first; retain Google Maps or another provider as alternatives. Configure the provider without hard-coding it throughout the UI.
 - [ ] Keep map attribution visible and provider conditions documented. Do not prefetch standard OSM tiles or use them for offline downloads. Monitor quotas if using a metered service.
-- [ ] Provide separate demo and real-data modes; label all fictional fixtures clearly.
+- [x] Provide separate demo and real-data modes; label all fictional fixtures clearly.
 
 ## 2. Design system
 
@@ -140,7 +140,7 @@ Release order: **V1 web map/list and community reporting → V1.5 Android and iP
 
 ## 6. Bootstrap real data and run the pilot
 
-- [ ] Download and inspect Nigeria WPdx data for the selected area; record licence, field definitions, collection dates, missingness and actual coverage before import.
+- [x] Download and inspect Nigeria WPdx data: imported 1,829 Lagos records in 20 LGAs, survey dates 2010–2019; provenance/licence retained; current availability and quality unknown.
 - [ ] Build a repeatable import preserving source IDs and original observations. Flag suspect coordinates and possible duplicates; do not import GRID3 records twice or show predictions as observations.
 - [ ] Agree public/restricted access handling and which sensitive point locations must be withheld or generalized.
 - [ ] Locally check an initial sample; 20–30 points is a proposed starting target, subject to team capacity.
@@ -182,3 +182,6 @@ Release order: **V1 web map/list and community reporting → V1.5 Android and iP
 - [ ] Build R1 player/station selection, R2 bulletin/text detail and R3 editorial scheduling using reviewed, dated information from V1.
 - [ ] Support corrections and withdrawal of obsolete bulletins; preserve sources and verification labels in both text and audio.
 - [ ] Validate playback and data use in practice; distinguish internet radio from any separately agreed FM or telephone distribution.
+
+- [ ] Verify a small set of imported WPdx points on the ground with partners; gather current availability, recognisable local names and documented quality evidence.
+- [ ] Add reviewed snapshot reconciliation and scheduled refresh after validating the first Lagos import.

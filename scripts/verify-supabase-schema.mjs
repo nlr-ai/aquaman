@@ -15,6 +15,7 @@ await db.exec(readFileSync('supabase/migrations/202610280003_photo_budget.sql','
 await db.exec(readFileSync('supabase/migrations/202610280004_readable_references.sql','utf8'));
 await db.exec(readFileSync('supabase/migrations/202610280005_editorial_duplicates.sql','utf8'));
 await db.exec(readFileSync('supabase/migrations/202610280006_editorial_observation_order.sql','utf8'));
+await db.exec(readFileSync('supabase/migrations/202610280007_wpdx_provider.sql','utf8'));
 const staff=randomUUID(),ordinary=randomUUID();await db.query('insert into auth.users values($1),($2)',[staff,ordinary]);await db.query('insert into aquaman_private.moderators values($1)',[staff]);
 async function role(name,uid=''){await db.exec('reset role');await db.query("select set_config('request.jwt.claim.sub',$1,false)",[uid]);await db.exec('set role '+name);}
 async function rpc(name,args=[],params=''){return (await db.query(`select public.${name}(${params}) as value`,args)).rows[0].value;}
@@ -69,5 +70,15 @@ await role('authenticated',staff);await rpc('aquaman_edit',[receipt.id,'restore'
 assert.equal((await rpc('aquaman_published')).length,2);
 await db.exec('reset role');assert.equal((await db.query('select count(*)::int n from aquaman_private.editorial_events')).rows[0].n,4);
 await role('authenticated',staff);await rpc('aquaman_unmerge',[duplicate.id,'Separate points after verification'],'$1,$2');assert.equal((await rpc('aquaman_published')).filter(r=>r.kind==='add').length,2);
+await db.exec('reset role');
+const providerId=2000000000001;
+await db.query('insert into aquaman_private.provider_points(id,provider_id,area,payload) values($1,$2,$3,$4::jsonb)',[providerId,'TEST-WPDX','Provider test',JSON.stringify({coords:[6.4,3.3],status:'Unknown',date:'2019-01-01',provider:'WPdx'})]);
+await role('anon');assert.deepEqual(await rpc('aquaman_provider_areas'),[{area:'Provider test',count:1}]);
+assert.equal((await rpc('aquaman_provider_points',['Provider test'],'$1'))[0].status,'Unknown');
+await assert.rejects(()=>db.query('select * from aquaman_private.provider_points'),/permission denied/);
+const providerReceipt=await rpc('aquaman_submit',[JSON.stringify({...payload,photoPath:undefined,kind:'update',pointId:providerId,dataset:'community',requestKey:randomUUID()})],'$1::jsonb');
+assert(providerReceipt.reference);
+await role('authenticated',staff);await rpc('aquaman_review',[providerReceipt.id,'published','Synthetic provider update verification'],'$1,$2,$3');
+assert.equal((await rpc('aquaman_published')).find(r=>r.id===providerReceipt.id).dataset,'community');
 await db.close();
 console.log('Supabase SQL passed on local PostgreSQL engine: migration, grants, private data isolation, anonymous submission/status, idempotency, moderator membership, follow-up, approval, rejection, point validation and audit events. Live project installation remains separate.');
