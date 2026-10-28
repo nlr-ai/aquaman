@@ -1,6 +1,8 @@
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
+import {loadPointNamer} from './point-names.mjs';
+const namer=loadPointNamer();
 const query='[out:json][timeout:60];area["ISO3166-2"="NG-LA"]["admin_level"="4"]->.lagos;(nwr(area.lagos)["amenity"~"^(drinking_water|water_point)$"];nwr(area.lagos)["man_made"~"^(water_well|water_tap)$"];);out center meta;';
 let raw;
 if(process.argv.includes('--cached'))raw=readFileSync('data/provider/osm-lagos.json');
@@ -9,11 +11,11 @@ const data=JSON.parse(raw);assert(!data.remark,'Reject partial Overpass response
 const records=data.elements.map(e=>{
  const coords=[e.lat??e.center?.lat,e.lon??e.center?.lon];assert(coords.every(Number.isFinite));
  const tags=Object.fromEntries(Object.entries(e.tags||{}).filter(([k])=>['name','amenity','man_made','access','fee','drinking_water','check_date','survey:date','operational_status'].includes(k)));
- return {sourceId:e.type+'/'+e.id,sourceUrl:'https://www.openstreetmap.org/'+e.type+'/'+e.id,coords,coordinateKind:e.center?'Geometry centre':'Node position',tags,lastEdited:e.timestamp,version:e.version,status:'Unknown',quality:'Unknown'};
+ return {appNickname:tags.name?undefined:namer.nameFor('osm:'+e.type+'/'+e.id),sourceId:e.type+'/'+e.id,sourceUrl:'https://www.openstreetmap.org/'+e.type+'/'+e.id,coords,coordinateKind:e.center?'Geometry centre':'Node position',tags,lastEdited:e.timestamp,version:e.version,status:'Unknown',quality:'Unknown'};
 });
 assert.equal(new Set(records.map(r=>r.sourceId)).size,records.length);
 const snapshot={provider:'OpenStreetMap',attribution:'© OpenStreetMap contributors',licence:'ODbL 1.0',licenceUrl:'https://www.openstreetmap.org/copyright',query,osmBaseTimestamp:data.osm3s.timestamp_osm_base,retrievedAt:new Date().toISOString(),sha256:createHash('sha256').update(raw).digest('hex'),scope:'Lagos State administrative area ISO3166-2=NG-LA',limitations:'Separate OSM extract. Tags are mapper statements, not laboratory tests or current availability confirmation. Edit timestamps are not observation dates. No WPdx data or inferred matches are embedded in this separately licensed snapshot.',records};
-mkdirSync('public/data/osm',{recursive:true});writeFileSync('public/data/osm/lagos.json',JSON.stringify(snapshot));
+mkdirSync('public/data/osm',{recursive:true});namer.save();writeFileSync('public/data/osm/lagos.json',JSON.stringify(snapshot));
 function distance(a,b){const rad=Math.PI/180;const h=Math.sin((b[0]-a[0])*rad/2)**2+Math.cos(a[0]*rad)*Math.cos(b[0]*rad)*Math.sin((b[1]-a[1])*rad/2)**2;return Math.round(6371000*2*Math.atan2(Math.sqrt(h),Math.sqrt(1-h)));}
 const manifest=JSON.parse(readFileSync('public/data/wpdx/index.json','utf8'));
 const wp=manifest.areas.flatMap(a=>JSON.parse(readFileSync('public/data/wpdx/'+a.file,'utf8')).points);

@@ -10,7 +10,7 @@ type Draft={dataset:string;kind:string;pointId:number|null;name:string;area:stri
 const LocationPicker=lazy(()=>import('./LocationPicker'));
 const today=()=>new Date().toLocaleDateString('en-CA');
 export function Contribution({point,area,close}:{point?:Point;area:string;close:()=>void}){
- const [draft,setDraft]=useState<Draft>(()=>{try{const saved=JSON.parse(sessionStorage.getItem('aquaman-draft')||'null');if(saved&&saved.dataset==='community'&&saved.kind===(point?'update':'add')&&saved.pointId===(point?.id??null))return saved;}catch{}return {dataset:'community',kind:point?'update':'add',pointId:point?.id??null,name:point?.name||'',area,landmark:point?.landmark||'',type:point?.type||'Unknown',status:'Unknown',observed:today(),description:'',requestKey:crypto.randomUUID()}});
+ const [draft,setDraft]=useState<Draft>(()=>{try{const saved=JSON.parse(sessionStorage.getItem('aquaman-draft')||'null');if(saved&&saved.dataset==='community'&&saved.kind===(point?'update':'add')&&saved.pointId===(point?.id??null))return {...saved,...(point?{name:point.name}:{})};}catch{}return {dataset:'community',kind:point?'update':'add',pointId:point?.id??null,name:point?.name||'',area,landmark:point?.landmark||'',type:point?.type||'Unknown',status:'Unknown',observed:today(),description:'',requestKey:crypto.randomUUID()}});
  const [photo,setPhoto]=useState<PreparedPhoto|null>(null),[processing,setProcessing]=useState(false),[geoBusy,setGeoBusy]=useState(false),[showMap,setShowMap]=useState(false);
  useEffect(()=>()=>{if(photo)URL.revokeObjectURL(photo.preview)},[photo]);
  const [review,setReview]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[receipt,setReceipt]=useState('');

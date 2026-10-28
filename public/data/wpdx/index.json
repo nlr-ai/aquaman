@@ -110,12 +110,12 @@
     "2010-01-01",
     "2019-11-02"
   ],
-  "retrievedAt": "2026-10-28T00:12:41.298Z",
+  "retrievedAt": "2026-10-28T00:33:19.885Z",
   "sourceUrl": "https://data.humdata.org/dataset/wpdx_nga",
   "downloadUrl": "https://data.humdata.org/dataset/29677a2d-1fb2-48a3-a06a-9c66800c418b/resource/1fdb9a0c-d145-49e5-a502-6a3bc63626e8/download/wpdx_enhanced.csv",
   "sourceUpdated": "2026-07-26T19:04:35.121549",
   "license": "Creative Commons Attribution Share-Alike",
   "licenseNote": "HDX declares Creative Commons Attribution Share-Alike without a version in this metadata. Source attribution and licence accompany this normalized snapshot. This data licence does not license application source code.",
   "csvSha256": "ebdce3d7bd007e2cd54a6379687cc05786806b0ffb0aca6034c2e80da35b88da",
-  "limitations": "Historical inventory. Current availability, access and drinking-water quality are unknown. Predictions and subjective quality are not used as verified evidence. Labels are generated from source type and WPdx ID; they are not local names."
+  "limitations": "Historical inventory. Current availability, access and drinking-water quality are unknown. Predictions and subjective quality are not used as verified evidence. Three-word app nicknames are stable labels, not local names or location codes. Original source identifiers are retained."
 }

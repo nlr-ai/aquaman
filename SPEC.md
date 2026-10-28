@@ -254,3 +254,7 @@ Refresh is manual via `provider:preview` then `provider:import`; raw CSV downloa
 Original GRID3 global identifiers are matched exactly against WPdx activity IDs, with a snapshot SHA-256 guard. 409 linked point details expose original names/coordinates/original date fields and coordinate discrepancies on demand. 771 unmatched original Lagos records remain review candidates; proximity is only a hint and never triggers a merge. No original coordinate, current status or water quality is overwritten. See docs/SOURCE-COMPARISON.md for counts, upstream-source dependence, source terms and excluded or unavailable sources.
 
 A separate 84-object OpenStreetMap Lagos snapshot retains ODbL attribution. On-demand point details expose nearby OSM candidates within 150 m, explicitly without identity/availability/quality confirmation. Spatial review found 68 OSM objects farther than 150 m from both WPdx and original GRID3 inventories; these remain review candidates, not automatic map additions.
+
+## Friendly identifiers implemented
+
+Unnamed imported points receive persistent three-word English nicknames, using a curated nature vocabulary and hyphen separators. Names are stored, unique across the registry, collision checked, and reused on source refresh. App nicknames do not replace source IDs or imply a local name, water condition or geographic encoding. Point headings, map tooltips, forms and moderator point choices use the friendly name. Existing local/community names remain available.

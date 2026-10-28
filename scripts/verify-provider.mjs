@@ -13,7 +13,9 @@ const points=manifest.areas.flatMap(area=>{
 assert.equal(points.length,manifest.recordCount);
 assert.equal(new Set(points.map(p=>p.id)).size,points.length);
 assert.equal(new Set(points.map(p=>p.providerId)).size,points.length);
+assert.equal(new Set(points.map(p=>p.name)).size,points.length);
 for(const p of points){
+ assert(/^[a-z]+-[a-z]+-[a-z]+$/.test(p.name));assert.equal(p.generatedName,true);
  assert(p.id>=2000000000000&&p.id<4000000000000);
  assert.equal(p.status,'Unknown');assert.equal(p.access,'Access unknown');assert.equal(p.price,'Price unknown');
  assert(!p.test);assert(!p.photoPath);assert.equal(p.sourceDate,p.date);
@@ -33,6 +35,7 @@ const [areas,ikeja]=await Promise.all([rpc('aquaman_provider_areas'),rpc('aquama
 assert.deepEqual(areas,manifest.areas.map(({area,count})=>({area,count})));
 const expected=points.filter(p=>p.area==='Ikeja');
 assert.equal(ikeja.length,expected.length);
+assert.deepEqual(ikeja.map(p=>[p.providerId,p.name]).sort(),expected.map(p=>[p.providerId,p.name]).sort());
 assert.deepEqual(ikeja.map(p=>p.providerId).sort(),expected.map(p=>p.providerId).sort());
 assert(ikeja.every(p=>p.status==='Unknown'&&p.importedAt&&p.provenance));
 console.log(`Provider verified: ${points.length} unique source records, ${areas.length} areas, licence/provenance/unknown current status, matching public Supabase inventory and ${ikeja.length} Ikeja records.`);
