@@ -78,7 +78,7 @@ Release order: **V1 web map/list and community reporting → V1.5 Android and iP
 - [ ] Set up Supabase development configuration, versioned SQL migrations, PostgreSQL/PostGIS, moderator authentication and photo storage.
 - [ ] Choose the pilot tile service: assess standard OSM tiles under their usage policy first; retain Google Maps or another provider as alternatives. Configure the provider without hard-coding it throughout the UI.
 - [ ] Keep map attribution visible and provider conditions documented. Do not prefetch standard OSM tiles or use them for offline downloads. Monitor quotas if using a metered service.
-- [x] Provide separate demo and real-data modes; label all fictional fixtures clearly.
+- [x] Remove demo mode, fictional fixtures and fictional test results; display WPdx and moderated community data only.
 
 ## 2. Design system
 

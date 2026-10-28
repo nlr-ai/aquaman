@@ -80,5 +80,13 @@ const providerReceipt=await rpc('aquaman_submit',[JSON.stringify({...payload,pho
 assert(providerReceipt.reference);
 await role('authenticated',staff);await rpc('aquaman_review',[providerReceipt.id,'published','Synthetic provider update verification'],'$1,$2,$3');
 assert.equal((await rpc('aquaman_published')).find(r=>r.id===providerReceipt.id).dataset,'community');
+await db.exec('reset role');
+await db.exec(readFileSync('supabase/migrations/202610280008_retire_demo.sql','utf8'));
+assert.equal((await db.query("select count(*)::int n from aquaman_private.reports where coalesce(payload->>'dataset','demo')='demo'")).rows[0].n,0);
+await role('anon');assert.equal((await rpc('aquaman_provider_points',['Provider test'],'$1')).length,1);
+await assert.rejects(()=>rpc('aquaman_submit',[JSON.stringify({...payload,photoPath:undefined,dataset:'demo',requestKey:randomUUID()})],'$1::jsonb'),/Invalid contribution dataset/);
+await assert.rejects(()=>rpc('aquaman_submit',[JSON.stringify({...payload,photoPath:undefined,kind:'update',pointId:1,requestKey:randomUUID()})],'$1::jsonb'),/Water point not found/);
+const realReceipt=await rpc('aquaman_submit',[JSON.stringify({...payload,photoPath:undefined,requestKey:randomUUID()})],'$1::jsonb');
+await role('authenticated',staff);assert.equal((await rpc('aquaman_queue')).find(r=>r.id===realReceipt.id).payload.dataset,'community');
 await db.close();
 console.log('Supabase SQL passed on local PostgreSQL engine: migration, grants, private data isolation, anonymous submission/status, idempotency, moderator membership, follow-up, approval, rejection, point validation and audit events. Live project installation remains separate.');

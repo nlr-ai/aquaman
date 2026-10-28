@@ -16,13 +16,13 @@ V1 centres on a mobile-friendly map and list. Android and iPhone distribution is
 - Compare and merge duplicate points, undo a merge, correct report text and retract/restore publications with a dated audit trail.
 - Keep pending reports and photos separate from published information.
 
-**The default view now loads 1,829 real historical WPdx records across 20 Lagos local government areas.** Observations date from 2010 to 2019; current availability, public access, price and water quality are unknown. This inventory has not been locally reverified. A separate Fictional demo option retains the four prototype fixtures and fictional test results.
+**The default view now loads 1,829 real historical WPdx records across 20 Lagos local government areas.** Observations date from 2010 to 2019; current availability, public access, price and water quality are unknown. This inventory has not been locally reverified. The fictional prototype fixtures and test results have been removed.
 
 ## Availability and water quality
 
 A working pump does not establish that its water is safe to drink. Aquaman keeps availability, access and quality distinct. Quality is unknown without documented evidence; historical tests carry a sample date and limitations. Community approval and photographs do not establish potability.
 
-The test example in Fictional demo mode is fictional. Qualified water-quality review and emergency operations remain outside the implemented scope.
+Qualified water-quality review and emergency operations remain outside the implemented scope.
 
 ## Stack
 
@@ -46,7 +46,7 @@ Use **Node.js 24 or later**; the local API uses `node:sqlite`.
 npm ci
 ```
 
-Copy `.env.example` to `.env.local`. Select the self-contained local demo:
+Copy `.env.example` to `.env.local`. Select the local development backend:
 
 ```env
 VITE_DATA_BACKEND=local
@@ -79,7 +79,7 @@ Confirm the target project first. Applied migration hashes are checked; later ch
 
 ## Hosting — Cloudflare
 
-The current Cloudflare project uses **Workers Static Assets**, with `npm run build` followed by `npx wrangler deploy`. The default `wrangler.toml` publishes `dist/` with SPA fallback. Cloudflare Pages remains an alternative. Supabase continues to provide authentication, database operations and private photos. A Pages deployment stays available independently of the developer's computer; the existing temporary tunnel is only a demo link.
+The current Cloudflare project uses **Workers Static Assets**, with `npm run build` followed by `npx wrangler deploy`. The default `wrangler.toml` publishes `dist/` with SPA fallback. Cloudflare Pages remains an alternative. Supabase continues to provide authentication, database operations and private photos. A Pages deployment stays available independently of the developer's computer; the existing temporary tunnel depends on the local computer.
 
 For Git integration, connect `nlr-ai/aquaman` and configure:
 
@@ -138,7 +138,7 @@ The first connection covers Lagos only, from [Water Point Data Exchange (NGA)](h
 
 Supabase serves areas and per-area points through public read-only RPCs backed by a private table. The development SQLite mode reads the attributed snapshots under `public/data/wpdx/`. Only the selected area is loaded. Source records retain stable identifiers, raw historical condition and water-presence fields, original organisation, dataset, licence and file hash. Generated labels combine type and WPdx ID; they are not local names. Predictions and subjective quality fields are not used to infer drinking-water safety.
 
-Approved community observations can update availability on a source point while retaining historical provenance. New real reports use the community dataset; legacy reports default to the isolated demo dataset. Approval does not verify quality. Duplicate suggestions currently consider the points loaded for the selected area plus published community additions.
+Approved community observations can update availability on a source point while retaining historical provenance. New real reports use the community dataset; the retired demonstration dataset has been removed and new demonstration submissions are rejected. Approval does not verify quality. Duplicate suggestions currently consider the points loaded for the selected area plus published community additions.
 
 ```powershell
 npm run migrate -- --apply
