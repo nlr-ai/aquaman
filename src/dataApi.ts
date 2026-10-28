@@ -1,3 +1,4 @@
+import {Capacitor} from '@capacitor/core';
 import {createClient} from '@supabase/supabase-js';
 
 export const isSupabase=import.meta.env.VITE_DATA_BACKEND==='supabase';
@@ -28,6 +29,7 @@ export async function api(path:string,body?:any):Promise<any>{
  }
  if(path==='/staff/logout'){const {error}=await supabase!.auth.signOut();if(error)failure(error);return {ok:true};}
  if(path==='/staff/reset'){
+  if(Capacitor.isNativePlatform())throw new Error('Please set or reset your password on the Aquaman website, then sign in here.');
   const {error}=await supabase!.auth.resetPasswordForEmail(body.email,{redirectTo:window.location.origin});if(error)failure(error);return {ok:true};
  }
  if(path==='/staff/session')return rpc('aquaman_staff_session');

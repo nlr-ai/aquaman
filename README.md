@@ -162,3 +162,18 @@ Unnamed imported points use two pleasant English words, capitalized and separate
 ## Nearby-name pilot
 
 Three points in Ikeja now propose “Near …” names from named OSM streets/landmarks, using original GRID3 coordinates and retaining the app nickname. Proposed names are explicitly unconfirmed. For these three map positions only, the original source precision is used; Supabase source records remain unchanged and new approved coordinates suppress the suggestion. See [pilot evidence and reproduction](docs/NEARBY-NAME-PILOT.md).
+
+## Android pilot APK
+
+[Download the Android pilot APK](https://github.com/nlr-ai/aquaman/releases/download/v1.0.0-android.1/aquaman-1.0.0-pilot.1.apk) · [release notes and checksum](https://github.com/nlr-ai/aquaman/releases/tag/v1.0.0-android.1)
+
+The Android app bundles the web interface with Capacitor 8 and connects directly to Supabase. Android 7+ (API 24), application ID `fm.aquaman.app`. Internet access is required for live data and map tiles. GPS is optional and requested only when using a location button; manual area/map selection remains available. Android Back closes help, returns through public screens, then exits from the welcome screen. Password setup/recovery currently uses the website; moderator sign-in uses existing credentials.
+
+Build on Windows with Node 22+, JDK 21, Android SDK 36 and build-tools 36.0.0:
+
+```powershell
+npm ci
+powershell -ExecutionPolicy Bypass -File scripts/build-android.ps1
+```
+
+Configure `.env.local` with the public Supabase variables from `.env.example` and `VITE_DATA_BACKEND=supabase`. No private token belongs in a `VITE_` variable. The signed, non-debuggable pilot APK and SHA-256 checksum are created in `data/android-release/`. The script creates a private signing key and password under `data/android-signing/`; back up both securely for future updates. Neither signing files nor APKs are committed. Increment Android `versionCode`, `versionName` and the script output filename for each release. The pilot is distributed through GitHub Releases, separately from any Google Play publication. iPhone packaging remains pending and needs macOS/Xcode.

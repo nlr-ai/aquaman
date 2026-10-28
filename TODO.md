@@ -199,3 +199,11 @@ Release order: **V1 web map/list and community reporting → V1.5 Android and iP
 
 - [x] Pilot nearby street/landmark names for 3 Ikeja points using original GRID3 coordinates; preserve aliases/provenance and label suggestions as unconfirmed.
 - [ ] Have local reviewers check the three nearby-name suggestions before expanding the pilot.
+
+
+### Android pilot export
+- [x] Add Capacitor Android project, native location and Back navigation.
+- [x] Add reproducible signed APK build script; keep signing credentials outside Git.
+- [ ] Validate on an Android device (not performed for this export at user request).
+- [ ] Implement/test native email recovery deep links before a store release.
+- [ ] Export iOS on macOS/Xcode.

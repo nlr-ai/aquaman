@@ -262,3 +262,7 @@ Unnamed imported points receive persistent two-word English nicknames, using a c
 ## Nearby-name pilot
 
 Three exact-ID-linked GRID3 records in Ikeja have proposed OSM nearby names, with 100 m street / 150 m landmark limits and geometry-based distance. They display as “Type · Near Name” with unconfirmed status, attribution, distance and original nickname. Original GRID3 positions are used for these three displayed markers, with the rounded WPdx positions retained in source data. Mismatched snapshots, local names or new approved coordinates suppress the layer. See docs/NEARBY-NAME-PILOT.md.
+
+
+### Android pilot implementation
+Capacitor 8 packages the existing interface for Android (API 24+, target 36), with bundled assets, direct Supabase access, optional native geolocation and native Back navigation. Signed pilot APKs are distributed via GitHub Releases. Build/signing instructions are in README.md. Live maps/data require internet; native password recovery links and iOS export remain pending.
