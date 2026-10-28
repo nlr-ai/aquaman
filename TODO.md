@@ -190,3 +190,5 @@ Release order: **V1 web map/list and community reporting → V1.5 Android and iP
 - [ ] Review 771 unresolved original GRID3 records and 402 coordinate discrepancies over 100 m; resolve boundaries and duplicates before importing additional points.
 - [x] Obtain a bounded 84-object OSM Lagos extract, preserve separate provenance/ODbL terms and expose on-demand proximity comparisons.
 - [ ] Review the 68 OSM objects farther than 150 m from both inventories before treating them as additional water points.
+
+- [x] Add labelled icons for water-point type, availability, access, price, quality, dates and navigation; use type icons and status indicators on map markers.
