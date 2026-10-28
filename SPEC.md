@@ -160,7 +160,7 @@ These are recommended choices for the pilot, subject to Ike's experience, budget
 | Component | Proposed technology | Purpose and constraints |
 | --- | --- | --- |
 | Web app and moderation interface | React and TypeScript | Shared technology for the water-point list, forms and moderator dashboard. Responsive, accessible and optimized for low-end phones. |
-| Frontend hosting | Cloudflare Pages, Free plan for the pilot | Serve the static Vite build over HTTPS independently of the developer's computer. Supabase remains the backend. Deployment is prepared; account authentication and actual publication are still pending. |
+| Frontend hosting | Cloudflare Workers Static Assets; Pages alternative | Serve the static Vite build over HTTPS independently of the developer's computer. Supabase remains the backend. Deployment is prepared; account authentication and actual publication are still pending. |
 | Map | Leaflet and an OpenStreetMap-based tile provider | Show point locations as an optional view. Choose a production tile provider after checking its terms, attribution, reliability and costs; OpenStreetMap data and tiles are distinct services. The text list must work without loading the map. |
 | Database and geospatial queries | PostgreSQL with PostGIS | Store points and observations; index coordinates and query nearby points or map bounds. |
 | Backend | Supabase | Managed PostgreSQL, authentication for moderators, storage for optional photos and backend APIs. Use server-side validation and appropriate row-level security; never expose privileged keys to the client. |
@@ -170,9 +170,9 @@ These are recommended choices for the pilot, subject to Ike's experience, budget
 
 The application should prioritize a lightweight, text-first experience, manual area selection and optional geolocation. Map tiles and photos should load only when needed. A progressive web app may enable installation and caching, but offline access, draft persistence and synchronization require explicit implementation and real-device testing; they are not guaranteed by choosing a PWA. Data hosting, provider limits, backups, operating costs and incident ownership must be reviewed before public launch.
 
-### Frontend deployment — Cloudflare Pages
+### Frontend deployment — Cloudflare
 
-Cloudflare Pages is the selected frontend hosting target for V1. The production source is `nlr-ai/aquaman`, branch `main`; build with Node 24 and `npm run build`, publishing `dist/`. Git integration is the preferred route for automatic deployments after pushes. A Wrangler direct upload is an alternative, but does not automatically configure Git integration.
+The current Cloudflare project uses Workers Static Assets for V1, configured to publish `dist/` through `npx wrangler deploy`; Cloudflare Pages is an alternative. The initial Pages configuration was incompatible with the Workers Builds command and has been corrected. A local deploy dry-run passes; actual publication remains to be verified. The production source is `nlr-ai/aquaman`, branch `main`; build with Node 24 and `npm run build`, publishing `dist/`. Git integration is the preferred route for automatic deployments after pushes. A Wrangler direct upload is an alternative, but does not automatically configure Git integration.
 
 Configure `VITE_DATA_BACKEND=supabase`, `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` as frontend build variables. Administrator tokens and service-role credentials must never be included in frontend variables or published assets. The production build does not start the localhost SQLite API. Supabase Auth, database RPCs and private photo storage remain separate services.
 

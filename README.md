@@ -30,7 +30,7 @@ The test example currently displayed is fictional. Qualified water-quality revie
 | Interface | React, TypeScript, Vite |
 | Map | Leaflet and OpenStreetMap tiles, loaded on demand |
 | Cloud | Supabase Auth, PostgreSQL RPCs and private Storage |
-| Frontend hosting | Cloudflare Pages (Free plan targeted for the pilot) |
+| Frontend hosting | Cloudflare Workers Static Assets; Pages is an alternative |
 | Local alternative | SQLite behind a localhost-only Vite API |
 | Presentation | CSS, self-hosted Figtree / Young Serif, Lucide icons |
 | Planned mobile packaging | Capacitor, subject to device and store validation |
@@ -76,9 +76,9 @@ npm run migrate -- --apply  # apply to the configured project
 
 Confirm the target project first. Applied migration hashes are checked; later changes belong in new migration files.
 
-## Hosting — Cloudflare Pages
+## Hosting — Cloudflare
 
-Cloudflare Pages is the selected hosting target for the web frontend. Supabase continues to provide authentication, database operations and private photos. A Pages deployment stays available independently of the developer's computer; the existing temporary tunnel is only a demo link.
+The current Cloudflare project uses **Workers Static Assets**, with `npm run build` followed by `npx wrangler deploy`. The default `wrangler.toml` publishes `dist/` with SPA fallback. Cloudflare Pages remains an alternative. Supabase continues to provide authentication, database operations and private photos. A Pages deployment stays available independently of the developer's computer; the existing temporary tunnel is only a demo link.
 
 For Git integration, connect `nlr-ai/aquaman` and configure:
 
@@ -91,7 +91,7 @@ For Git integration, connect `nlr-ai/aquaman` and configure:
 
 Set the three public build variables shown in **Supabase mode** above. Do not upload `.env.local` or add administrator credentials to frontend build settings. After publication, authorize the actual Pages URL in Supabase Auth's redirect settings and verify password setup/reset.
 
-**Deployment status:** configuration is prepared and committed; Cloudflare account authentication and publication are still pending. Automatic deployment on push also requires Git integration to be connected. No permanent Pages URL has been verified yet.
+**Deployment status:** Workers Builds reached compilation, then failed because the previous configuration targeted Pages. The corrected Workers configuration passes a local deployment dry-run; publication at `https://aquaman.nlr-7f3.workers.dev` still needs verification after redeployment.
 
 See [Cloudflare deployment instructions](docs/DEPLOYMENT.md) for Git integration, direct-upload alternatives and release checks. The free plan is the pilot target, subject to provider quotas; backend and map services retain their own limits.
 

@@ -1,8 +1,12 @@
-# Cloudflare Pages deployment
+# Cloudflare deployment — Workers Static Assets or Pages
 
 The frontend is static. Supabase provides Auth, reporting RPCs and photo storage independently of Cloudflare. Production builds do not initialize the localhost SQLite API.
 
-## Git integration
+## Current project: Workers Static Assets
+
+The Cloudflare project was created with Workers Builds and runs `npx wrangler deploy`. The default `wrangler.toml` therefore configures `[assets] directory = "./dist"` and single-page-application fallback. No Worker script is required for this static frontend. Use `npm run build` as the build command and `npx wrangler deploy` as the deploy command. The intended address is `https://aquaman.nlr-7f3.workers.dev`; publication must be verified after the corrected build deploys. `wrangler deploy --dry-run` passes with this configuration.
+
+## Alternative: Pages Git integration
 
 Connect the GitHub repository `nlr-ai/aquaman` to a Cloudflare Pages project with:
 
@@ -29,7 +33,7 @@ Once Wrangler is authenticated with a Cloudflare account, build locally with the
 
 ```sh
 npm run build
-npx wrangler pages deploy dist --project-name aquaman --branch main
+npx wrangler pages deploy dist --config wrangler.pages.toml --project-name aquaman --branch main
 ```
 
 A direct-upload project does not automatically acquire GitHub builds. Choose Git integration at project creation if automatic deployment on push is required. Check Cloudflare's current project creation options before switching modes.
