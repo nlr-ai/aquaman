@@ -15,7 +15,7 @@ assert.equal(new Set(points.map(p=>p.id)).size,points.length);
 assert.equal(new Set(points.map(p=>p.providerId)).size,points.length);
 assert.equal(new Set(points.map(p=>p.name)).size,points.length);
 for(const p of points){
- assert(/^[a-z]+-[a-z]+-[a-z]+$/.test(p.name));assert.equal(p.generatedName,true);
+ assert(/^(Borehole|Well|Public Tap|Other) [A-Z][a-z]+ [A-Z][a-z]+$/.test(p.name));assert.equal(p.generatedName,true);
  assert(p.id>=2000000000000&&p.id<4000000000000);
  assert.equal(p.status,'Unknown');assert.equal(p.access,'Access unknown');assert.equal(p.price,'Price unknown');
  assert(!p.test);assert(!p.photoPath);assert.equal(p.sourceDate,p.date);

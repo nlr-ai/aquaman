@@ -257,4 +257,4 @@ A separate 84-object OpenStreetMap Lagos snapshot retains ODbL attribution. On-d
 
 ## Friendly identifiers implemented
 
-Unnamed imported points receive persistent three-word English nicknames, using a curated nature vocabulary and hyphen separators. Names are stored, unique across the registry, collision checked, and reused on source refresh. App nicknames do not replace source IDs or imply a local name, water condition or geographic encoding. Point headings, map tooltips, forms and moderator point choices use the friendly name. Existing local/community names remain available.
+Unnamed imported points receive persistent two-word English nicknames, using a curated nature vocabulary and capitalized words with spaces and the water-point type as a prefix. Names are stored, unique across the registry, collision checked, and reused on source refresh. App nicknames do not replace source IDs or imply a local name, water condition or geographic encoding. Point headings, map tooltips, forms and moderator point choices use the friendly name. Existing local/community names remain available.
