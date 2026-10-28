@@ -192,3 +192,5 @@ Release order: **V1 web map/list and community reporting → V1.5 Android and iP
 - [ ] Review the 68 OSM objects farther than 150 m from both inventories before treating them as additional water points.
 
 - [x] Add labelled icons for water-point type, availability, access, price, quality, dates and navigation; use type icons and status indicators on map markers.
+
+- [x] Add contextual “i” explanations in plain English for availability, quality, types, price/access, dates, distances, sources, comparisons and reporting; verify keyboard focus, Escape/outside dismissal and form safety.
