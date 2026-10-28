@@ -12,6 +12,10 @@ function failure(error:{message:string;code?:string}):never{
 async function rpc(name:string,args?:Record<string,unknown>){if(!supabase)throw new Error('Supabase configuration is missing.');const {data,error}=await supabase.rpc(name,args);if(error)failure(error);return data;}
 export async function api(path:string,body?:any):Promise<any>{
  if(!isSupabase){const r=await fetch('/api'+path,{method:body===undefined?'GET':'POST',headers:body===undefined?{}:{'Content-Type':'application/json'},body:body===undefined?undefined:JSON.stringify(body)});const data=await r.json();if(!r.ok)throw new Error(data.error||'Request failed');return data;}
+ if(path.startsWith('/editorial/'))return rpc('aquaman_editorial_log',{p_point:Number(path.slice(11))});
+ if(path==='/staff/unmerge')return rpc('aquaman_unmerge',{p_id:body.id,p_note:body.note});
+ if(path==='/staff/edit')return rpc('aquaman_edit',{p_id:body.id,p_action:body.action,p_patch:body.patch,p_note:body.note});
+ if(path==='/staff/merge')return rpc('aquaman_merge',{p_id:body.id,p_target:body.target,p_note:body.note});
  if(path==='/published')return rpc('aquaman_published');
  if(path==='/reports')return rpc('aquaman_submit',{p_payload:body});
  if(path.startsWith('/status/'))return rpc('aquaman_status',{p_id:decodeURIComponent(path.slice(8))});

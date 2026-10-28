@@ -11,7 +11,8 @@
     "test:supabase": "node scripts/verify-supabase-schema.mjs",
     "check:supabase": "node scripts/check-supabase.mjs",
     "migrate": "node scripts/migrate.mjs",
-    "test:media": "node scripts/verify-live-media.mjs"
+    "test:media": "node scripts/verify-live-media.mjs",
+    "test:editorial": "node scripts/verify-live-editorial.mjs"
   },
   "keywords": [],
   "author": "",

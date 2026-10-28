@@ -13,6 +13,7 @@ V1 centres on a mobile-friendly map and list. Android and iPhone distribution is
 - Submit a new point or update, with an optional map-picked position and compressed photo.
 - Review before sending and track contributions with readable references such as `AQ-7K3P-29DR-F6MX`.
 - Let authorized moderators approve reports, reject them or request follow-up.
+- Compare and merge duplicate points, undo a merge, correct report text and retract/restore publications with a dated audit trail.
 - Keep pending reports and photos separate from published information.
 
 **This demonstration uses fictional seed points and test results.** It has not been validated as a real-world water-finding service. There is not yet an imported, verified Nigerian water-point catalogue.
@@ -112,7 +113,7 @@ Supabase mode can use a static frontend after cloud installation. SQLite mode re
 
 | Release | Focus |
 | --- | --- |
-| V1 | Web map/list, contributions and moderation; ongoing work on duplicates, corrections, real data and pilot validation |
+| V1 | Web map/list, contributions and moderation; ongoing work on real data, richer point editing and pilot validation |
 | V1.5 | Android/iPhone packaging, device permissions, testing and store publication |
 | V2 | Water-news radio, audio bulletins and editorial scheduling |
 

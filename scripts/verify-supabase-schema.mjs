@@ -13,6 +13,8 @@ await db.exec(`create schema storage;create table storage.objects(bucket_id text
 await db.exec(readFileSync('supabase/migrations/202610280002_coordinates_photos.sql','utf8'));
 await db.exec(readFileSync('supabase/migrations/202610280003_photo_budget.sql','utf8'));
 await db.exec(readFileSync('supabase/migrations/202610280004_readable_references.sql','utf8'));
+await db.exec(readFileSync('supabase/migrations/202610280005_editorial_duplicates.sql','utf8'));
+await db.exec(readFileSync('supabase/migrations/202610280006_editorial_observation_order.sql','utf8'));
 const staff=randomUUID(),ordinary=randomUUID();await db.query('insert into auth.users values($1),($2)',[staff,ordinary]);await db.query('insert into aquaman_private.moderators values($1)',[staff]);
 async function role(name,uid=''){await db.exec('reset role');await db.query("select set_config('request.jwt.claim.sub',$1,false)",[uid]);await db.exec('set role '+name);}
 async function rpc(name,args=[],params=''){return (await db.query(`select public.${name}(${params}) as value`,args)).rows[0].value;}
@@ -46,5 +48,26 @@ await assert.rejects(()=>rpc('aquaman_submit',[JSON.stringify({...payload,observ
 await role('authenticated',staff);await rpc('aquaman_review',[u.id,'rejected','Rejected test'],'$1,$2,$3');
 await db.exec('reset role');assert.equal((await db.query('select count(*)::int n from aquaman_private.review_events')).rows[0].n,3);
 await role('anon');assert.equal((await rpc('aquaman_published')).length,1);
+
+// Editorial lifecycle and duplicate projection: keep stable point IDs and original payloads.
+await assert.rejects(()=>rpc('aquaman_edit',[receipt.id,'correct',JSON.stringify({name:'Forbidden'}),'Unauthorized'],'$1,$2,$3::jsonb,$4'),/permission denied/);
+const duplicate=await rpc('aquaman_submit',[JSON.stringify({...payload,name:'Duplicate fixture',requestKey:randomUUID()})],'$1::jsonb');
+await role('authenticated',staff);
+await rpc('aquaman_merge',[duplicate.id,pointId,'Same physical tap, checked by test reviewer'],'$1,$2,$3');
+let projection=await rpc('aquaman_published');const merged=projection.find(r=>r.id===duplicate.id);assert.equal(merged.kind,'update');assert.equal(merged.pointId,pointId);assert.equal(projection.filter(r=>r.kind==='add').length,1);
+await assert.rejects(()=>rpc('aquaman_merge',[duplicate.id,pointId,'Duplicate action'],'$1,$2,$3'),/already been merged/);
+const originalReviewed=(await rpc('aquaman_published')).find(r=>r.id===receipt.id).reviewed;
+await rpc('aquaman_edit',[receipt.id,'correct',JSON.stringify({name:'Corrected fixture',description:'Corrected public text'}),'Spelling corrected'],'$1,$2,$3::jsonb,$4');
+projection=await rpc('aquaman_published');assert.equal(projection.find(r=>r.id===receipt.id).name,'Corrected fixture');assert.equal(projection.find(r=>r.id===receipt.id).observed,payload.observed);
+const corrected=(await rpc('aquaman_queue')).find(r=>r.id===receipt.id);assert.equal(corrected.edits[0].previousPayload.name,payload.name);assert.equal(corrected.reviewed,originalReviewed);
+await assert.rejects(()=>rpc('aquaman_edit',[receipt.id,'correct',JSON.stringify({status:'Not working'}),'Invalid patch'],'$1,$2,$3::jsonb,$4'),/Only name/);
+await rpc('aquaman_edit',[receipt.id,'retract','{}','Withdraw inaccurate source'],'$1,$2,$3::jsonb,$4');
+assert.equal((await rpc('aquaman_published')).length,0);
+await role('anon');assert.equal((await rpc('aquaman_status',[receipt.reference],'$1')).status,'retracted');assert.equal((await db.query('select * from storage.objects')).rows.length,0);assert((await rpc('aquaman_editorial_log',[pointId],'$1')).some(e=>e.action==='retract'));
+await role('authenticated',ordinary);await assert.rejects(()=>rpc('aquaman_edit',[receipt.id,'restore','{}','Unauthorized'],'$1,$2,$3::jsonb,$4'),/Moderator authorization/);
+await role('authenticated',staff);await rpc('aquaman_edit',[receipt.id,'restore','{}','Verified corrected record'],'$1,$2,$3::jsonb,$4');
+assert.equal((await rpc('aquaman_published')).length,2);
+await db.exec('reset role');assert.equal((await db.query('select count(*)::int n from aquaman_private.editorial_events')).rows[0].n,4);
+await role('authenticated',staff);await rpc('aquaman_unmerge',[duplicate.id,'Separate points after verification'],'$1,$2');assert.equal((await rpc('aquaman_published')).filter(r=>r.kind==='add').length,2);
 await db.close();
 console.log('Supabase SQL passed on local PostgreSQL engine: migration, grants, private data isolation, anonymous submission/status, idempotency, moderator membership, follow-up, approval, rejection, point validation and audit events. Live project installation remains separate.');

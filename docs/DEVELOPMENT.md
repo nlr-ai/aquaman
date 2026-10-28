@@ -46,3 +46,13 @@ Migration 002 adds validated coordinates and photo references; 003 limits the pi
 On 28 October 2026, live media checks and browser manual-coordinate projection checks passed. Physical camera/GPS and the browser file-picker/compression UI still need validation. The public tunnel serves the latest rebuilt static assets; cloud schema changes apply independently of that build.
 
 The contribution position picker now uses an on-demand OSM map with a centre pin: move/tap the map, confirm, then grant publication permission. Coordinates remain available in a collapsed fallback. Migration 004 adds short grouped references and backfills existing reports while keeping stable internal IDs and legacy status lookups. The receipt and moderator queue display readable references; copy and case/hyphen-tolerant lookup are supported. Browser and live API verification passed on 28 October 2026.
+
+## Editorial and duplicate management
+
+Supabase migrations 005/006 add point-merge mappings and editorial events with moderator-only mutation RPCs. Public reports resolve canonical points without destroying source payloads. Moderator text correction is deliberately limited to name, landmark and description. Retraction/restoration controls publication without deleting evidence; the public point page displays dated explanations, while previous payloads remain moderator-only. Merge is reversible. No automatic merging is based on proximity.
+
+Editorial updates preserve the original publication timestamp used to order observations. New editorial timestamps belong to the audit events. Advanced editorial actions are Supabase-only; SQLite still supports basic approve/reject/follow-up. Related-point relationships and full structured point edits remain open.
+
+`npm run test:editorial` creates and removes isolated live Supabase test records and an Auth moderator, exercising merge/undo, correction/audit, root retraction, public notices and restoration. Requires the local Management API token. `--keep` is for deliberate browser verification and writes temporary credentials only under ignored `data/`; finish with `node scripts/verify-live-editorial.mjs --cleanup`.
+
+On 28 October 2026, local SQL and live API checks passed. An isolated browser origin verified moderator login, duplicate matching and merge/undo confirmations, restored public cards and editorial notices. Synthetic account, records and audit data were removed after testing. No human account password was used.

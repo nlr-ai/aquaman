@@ -54,6 +54,17 @@ Updated: 28 October 2026. The detailed checklist tracks the full product; see th
 - [x] Backfill existing references in migration 004; retain compatibility in local SQLite mode.
 - [x] Browser-test map movement, confirmation, recap and Supabase receipt. Verify saved coordinates and both reference formats through the live API; remove temporary test. Local API tests, PostgreSQL tests and production build pass.
 
+## Editorial corrections and duplicate management
+
+- [x] M4 comparison: suggest nearby/name-matching records, choose an existing target and explicitly confirm a merge with a public explanation. No automatic merge.
+- [x] Merge projection preserves original records, provenance and observations; canonical points display combined histories without duplicate cards. Undo merge is available to moderators.
+- [x] M5 text corrections retain previous payloads in the moderator audit. Corrections are limited to name, landmark and description; availability, quality and observation date are not rewritten by that editor.
+- [x] Retract/restore published reports with public dated notices. Retracting an original point record also hides dependent updates; photo access follows the public projection, subject to previously issued signed-link expiry.
+- [x] Preserve initial observation publication order during editorial edits, retraction/restoration and merges, so text edits do not reorder availability observations.
+- [x] Apply migrations 005/006 and verify permissions, merge/undo, correction audit, retraction and restoration locally and against live Supabase with a temporary Auth moderator.
+- [x] Browser-test moderator login, duplicate suggestion/comparison, merge confirmation, undo merge, public restored points and dated editorial history. Remove the test account and all fixtures afterward.
+- [ ] These advanced editorial actions require Supabase mode; SQLite mode retains the basic review workflow. Related-point links, geographic duplicate queries in PostGIS and full canonical point metadata editing remain open.
+
 Sources: `SPEC.md` and the [Claude design reference](https://claude.ai/artifact/CqtLLXUc6wtuAsogNrg6xU), including its “Design tokens, composants et règles” section, read on 28 October 2026. The design's Ajegunle locations, counts, reports and laboratory results are fictional examples, not a confirmed pilot dataset.
 
 Release order: **V1 web map/list and community reporting → V1.5 Android and iPhone → V2 radio**. Read the design alongside this checklist for visual composition; this file records implementation work, not evidence of completed development.
@@ -122,7 +133,7 @@ Release order: **V1 web map/list and community reporting → V1.5 Android and iP
 - [ ] **M1:** authorized sign-in/sign-out and session handling; residents can browse and submit without creating an account.
 - [ ] **M2:** pending, follow-up and duplicate queues, area/date filters, urgency followed by oldest-first ordering; use actual counts.
 - [ ] **M3:** review observation versus submission dates, media, source, conflicts and authorized private contact; approve community report, verify operational evidence, request follow-up or reject. Record reviewer, time and reason/evidence.
-- [ ] **M4:** compare possible duplicates; merge, relate or keep separate. Preserve provenance, observations, links and audit history. Proximity alone must not trigger automatic merging.
+- [x] **M4 (merge scope):** compare and merge duplicates or keep them separate; preserve original observations and audit; support undo. Related-point links remain open.
 - [ ] **M5:** publish corrections/retractions and reviewed tests with qualified-partner evidence. Keep operational verification separate from test review.
 - [ ] **M6:** draft/publish/correct/retract local updates with area, date, source, verification type and related point. A label selector alone must not confer quality verification.
 - [ ] Verify an end-to-end report: submit → persist pending → review → approve → update public point; separately check rejection, follow-up, conflicts and corrections.
