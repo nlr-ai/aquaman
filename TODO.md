@@ -185,3 +185,8 @@ Release order: **V1 web map/list and community reporting → V1.5 Android and iP
 
 - [ ] Verify a small set of imported WPdx points on the ground with partners; gather current availability, recognisable local names and documented quality evidence.
 - [ ] Add reviewed snapshot reconciliation and scheduled refresh after validating the first Lagos import.
+
+- [x] Cross-check the original GRID3 source against WPdx by exact identifiers and expose original details without automatic merging.
+- [ ] Review 771 unresolved original GRID3 records and 402 coordinate discrepancies over 100 m; resolve boundaries and duplicates before importing additional points.
+- [x] Obtain a bounded 84-object OSM Lagos extract, preserve separate provenance/ODbL terms and expose on-demand proximity comparisons.
+- [ ] Review the 68 OSM objects farther than 150 m from both inventories before treating them as additional water points.

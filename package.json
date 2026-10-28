@@ -15,7 +15,10 @@
     "test:editorial": "node scripts/verify-live-editorial.mjs",
     "provider:preview": "node scripts/import-wpdx.mjs",
     "provider:import": "node scripts/import-wpdx.mjs --cached --apply",
-    "test:provider": "node scripts/verify-provider.mjs"
+    "test:provider": "node scripts/verify-provider.mjs",
+    "provider:crosscheck": "node scripts/crosscheck-grid3.mjs",
+    "test:crosscheck": "node scripts/verify-crosscheck.mjs",
+    "provider:osm": "node scripts/crosscheck-osm.mjs"
   },
   "keywords": [],
   "author": "",

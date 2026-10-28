@@ -1,0 +1,19 @@
+# Water-point source comparison — 28 October 2026
+
+The connected WPdx Lagos inventory has 1,829 records: 421 from GRID3 and 1,408 from the Federal Ministry of Water Resources 2015 dataset. These are upstream contributors, not independent confirmations.
+
+## GRID3 original-file comparison
+
+The [WPdx GRID3 source catalogue](https://catalog.waterpointdata.org/datasets/grid3-nigeria-water-points-61ae7cd9/) provides an original CSV with source identifiers, names and X/Y coordinates. Selecting original ward codes beginning LAS yields 1,180 unique Lagos records. Exact equality between source globalid and WPdx activity_id links 409 to the current inventory. The remaining 771 are unresolved records, not 771 confirmed additional points; 81 are within 75 m of an existing WPdx coordinate. Proximity alone never triggers a merge or import.
+
+402 of the exact identifier matches differ by more than 100 m between original X/Y and WPdx coordinates. The original CSV also contains lat/lon columns rounded to two decimals; the comparison uses its full-precision X/Y. This is a precision discrepancy, not evidence that a point moved. For 399 exact matches, the original timestamp date also differs from the WPdx report date; these fields may have different meanings or formats. Raw date fields are preserved, without assuming which is correct. Neither coordinates nor names/statuses are automatically overwritten. Linked point details now offer the original source record, name, coordinates, original date fields and discrepancy. The comparison loads on demand and is gated by the WPdx download hash to prevent using it against a different inventory snapshot.
+
+Reproduce with `npm run provider:preview` then `npm run provider:crosscheck`; `-- --cached` reuses the original CSV. Run `npm run test:crosscheck` after downloading both source files. The public comparison data is `public/data/crosscheck/grid3-lagos.json`. GRID3's catalogue states reuse is permitted with clear source attribution. Preserve the original catalogue link and attribution; no standard licence version is invented here.
+
+## Other sources checked
+
+- [OpenStreetMap water wells](https://wiki.openstreetmap.org/wiki/Tag:man_made=water_well), drinking-water points, water taps and water points are a promising separate inventory. After initial HTTP 406/429 responses and timeouts, one bounded Lagos query succeeded: 84 objects (60 drinking_water, 19 water_point, 5 water_well). Two are within 75 m of WPdx and ten within 150 m; three are within 75 m of original GRID3 coordinates. 68 are more than 150 m from both inventories. These are candidates for additional coverage, not confirmed new or unique points. A separate ODbL snapshot is published under public/data/osm/lagos.json; no WPdx values are copied into that snapshot. Point details can compare nearby OSM objects on demand. No new objects are automatically added to the main map or merged. Reproduce with npm run provider:osm (or -- --cached), which also writes an ignored spatial review report. A drinking_water tag is not a current laboratory test.
+- [openAFRICA Lagos Public Water Points](https://www.open.africa/en/dataset/lagos-public-water-points) declares no dataset licence and its displayed bounding box is outside Lagos. Excluded pending clarification of rights and geography.
+- [Nigeria WASHNORM through JMP](https://washdata.org/countries/nigeria) supplies useful monitoring/report context, but no reusable individual point-coordinate inventory was verified here.
+
+Next: review the unresolved GRID3 records against precise administrative boundaries and neighbouring original records, seek local verification, and review the 84 OSM objects, particularly the 68 distant from both inventories. No extra points have been automatically added and water quality remains unknown.

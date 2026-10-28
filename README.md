@@ -150,3 +150,7 @@ npm run test:provider
 Preview downloads the official HDX resource and produces an ignored import report. Import explicitly writes to Supabase using the local management token and generates per-area public snapshots; never put that token in frontend variables. `provider:import` reuses the download from `provider:preview` so the inspected file is the one imported. Imports upsert source IDs; absent records are retained pending manual reconciliation. Refresh is manual. Check changed coverage, licence and dates before applying; there is no background sync or nationwide coverage yet.
 
 The normalized data snapshots carry the source's **Creative Commons Attribution Share-Alike** designation, separate from the application code's UNLICENSED status. HDX metadata does not specify a licence version. Preserve the supplied attribution and licence when redistributing the data; see [data attribution](public/data/wpdx/ATTRIBUTION.md).
+
+## Source comparison
+
+The original GRID3 file has been compared with WPdx: 409 exact source-ID links and 771 unresolved Lagos records. Linked details expose original names, precise source coordinates and coordinate differences on demand. No automatic merge, coordinate replacement or new-point import is performed. See [source comparison findings](docs/SOURCE-COMPARISON.md), including the separate 84-object OSM extract, proximity comparisons and excluded sources.
