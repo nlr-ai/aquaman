@@ -19,7 +19,9 @@
     "provider:crosscheck": "node scripts/crosscheck-grid3.mjs",
     "test:crosscheck": "node scripts/verify-crosscheck.mjs",
     "provider:osm": "node scripts/crosscheck-osm.mjs",
-    "test:names": "node scripts/verify-point-names.mjs"
+    "test:names": "node scripts/verify-point-names.mjs",
+    "provider:landmarks": "node scripts/nearby-landmarks.mjs",
+    "test:landmarks": "node scripts/verify-landmark-names.mjs"
   },
   "keywords": [],
   "author": "",

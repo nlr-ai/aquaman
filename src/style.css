@@ -11,3 +11,5 @@ body::before{content:"";position:absolute;inset:0 0 0 auto;width:min(68vw,960px)
 #root{position:relative;z-index:1}
 @media(min-width:760px){main{background:rgba(251,247,241,.94)}}
 @media(max-width:600px){body::before{width:74vw;right:0;opacity:.48}}
+
+.nearbylabel{border-left:3px solid #A6CBE4;padding:0 12px;margin:12px 0 20px}.nearbylabel p{font-size:.8125rem;color:var(--muted);margin:5px 0}.nearbyhint{margin-top:9px;color:var(--primary)}

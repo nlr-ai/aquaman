@@ -196,3 +196,6 @@ Release order: **V1 web map/list and community reporting → V1.5 Android and iP
 - [x] Add contextual “i” explanations in plain English for availability, quality, types, price/access, dates, distances, sources, comparisons and reporting; verify keyboard focus, Escape/outside dismissal and form safety.
 
 - [x] Replace technical point IDs in primary labels with persistent, unique two-word nature nicknames; preserve source IDs and existing local names.
+
+- [x] Pilot nearby street/landmark names for 3 Ikeja points using original GRID3 coordinates; preserve aliases/provenance and label suggestions as unconfirmed.
+- [ ] Have local reviewers check the three nearby-name suggestions before expanding the pilot.

@@ -258,3 +258,7 @@ A separate 84-object OpenStreetMap Lagos snapshot retains ODbL attribution. On-d
 ## Friendly identifiers implemented
 
 Unnamed imported points receive persistent two-word English nicknames, using a curated nature vocabulary and capitalized words with spaces and the water-point type as a prefix. Names are stored, unique across the registry, collision checked, and reused on source refresh. App nicknames do not replace source IDs or imply a local name, water condition or geographic encoding. Point headings, map tooltips, forms and moderator point choices use the friendly name. Existing local/community names remain available.
+
+## Nearby-name pilot
+
+Three exact-ID-linked GRID3 records in Ikeja have proposed OSM nearby names, with 100 m street / 150 m landmark limits and geometry-based distance. They display as “Type · Near Name” with unconfirmed status, attribution, distance and original nickname. Original GRID3 positions are used for these three displayed markers, with the rounded WPdx positions retained in source data. Mismatched snapshots, local names or new approved coordinates suppress the layer. See docs/NEARBY-NAME-PILOT.md.

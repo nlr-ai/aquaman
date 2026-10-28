@@ -158,3 +158,7 @@ The original GRID3 file has been compared with WPdx: 409 exact source-ID links a
 ## Friendly point names
 
 Unnamed imported points use two pleasant English words, capitalized and separated by a space, after the water-point type. The curated nature vocabulary and deterministic candidate generator are in `scripts/point-names.mjs`; assignments are persisted in `public/data/wpdx/names.json`. Existing assignments are kept on refresh and collisions are resolved before saving. These are app nicknames, not local names or geographic codes. WPdx identifiers remain unchanged for reports and source comparisons. Named community/OSM records retain their names; unnamed OSM comparison records also receive nicknames. Run `npm run test:names` to check uniqueness, collision handling and persistence.
+
+## Nearby-name pilot
+
+Three points in Ikeja now propose “Near …” names from named OSM streets/landmarks, using original GRID3 coordinates and retaining the app nickname. Proposed names are explicitly unconfirmed. For these three map positions only, the original source precision is used; Supabase source records remain unchanged and new approved coordinates suppress the suggestion. See [pilot evidence and reproduction](docs/NEARBY-NAME-PILOT.md).
